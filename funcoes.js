@@ -43,6 +43,7 @@ function criptografar(palavra,p,q,e){
         resp = Math.pow(parseFloat(arraySeparacao[i]), e) % n;
 
         resp = ""+resp;
+        console.log(resp);
         if(resp.length < 4)
             resp = "0"+resp;
 
@@ -51,7 +52,11 @@ function criptografar(palavra,p,q,e){
     return resultado_final;
 }
 
-function descriptografar(){
+function descriptografar(palavra,p,q,e){
+    pmenos1 = p - 1;
+    qmenos1 = q - 1;
+    n = pmenos1 * qmenos1;
+    n = e 
 
 }
 
