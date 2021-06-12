@@ -53,10 +53,53 @@ function criptografar(palavra,p,q,e){
 }
 
 function descriptografar(palavra,p,q,e){
+    var teste,d,teste3,teste4;
+
+    arraySeparacao = [];
+    var u = 0; // for para quebrar a palavra em 4 posições
+    for (var i = 0; i < palavra.length; i = i+4){
+        arraySeparacao[u] = palavra.substring(i,i+4);
+        u++;
+    }
+
     pmenos1 = p - 1;
     qmenos1 = q - 1;
     n = pmenos1 * qmenos1;
-    n = e 
+
+    arrayResultados = [];
+    
+    var aux = "";
+    var i = 0;
+    while(aux != 1){
+        if(i == 0){ // Primeiro Loop = Inicio Algoritmo de euclides
+            divisao = parseInt((n / e));
+            resto = n % e;
+            console.log(n+" = "+e+"*"+divisao+"+"+resto);
+            arrayResultados[i] = n - (e*divisao);
+            aux = arrayResultados[i];
+        }else{
+            divisao = parseInt(e / aux);
+            resto = e % aux;
+            console.log(e+" = "+divisao+"*"+aux+"+"+resto);
+            arrayResultados[i] = e - (divisao*aux);
+            e = aux;
+            aux = arrayResultados[i];
+            
+        }
+        i++;
+        if(i == 6){
+            break;
+        }
+    }
+
+    // teste2 = Math.round((n / e),0);
+    // d = e * teste2;
+    // console.log(d);
+    // if(d  < 0)
+    //     teste3 = e - d;
+    // teste4 = Math.pow(u+1,teste3);
+    // console.log(d);
+
 
 }
 
