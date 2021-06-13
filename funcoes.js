@@ -16,15 +16,16 @@ function validar(){
         alert('Digite o e!');
     }else{
         if($('#tipo').val() == 1){
-            $('#resultado').val(criptografar(palavra,p,q,e));
+            criptografar(palavra,p,q,e);
         }else{
-            descriptografar();
+            descriptografar(palavra,p,q,e);
         }
     }
 
 }
 
 function criptografar(palavra,p,q,e){
+    $('#resultado').val('');
     n = p * q;
     palavraAux = ""; // variavel com a palavra codificada pelo dicionario
     for (var i = 0; i < palavra.length; i++){
@@ -40,19 +41,14 @@ function criptografar(palavra,p,q,e){
 
     resultado_final = "";
     for(var i = 0; i < arraySeparacao.length; i++){
-        resp = Math.pow(parseFloat(arraySeparacao[i]), e) % n;
-
-        resp = ""+resp;
-        console.log(resp);
-        if(resp.length < 4)
-            resp = "0"+resp;
-
-        resultado_final += resp;
+        // alert(parseInt(arraySeparacao[i])+"^"+parseInt(e)+"mod"+n);
+        chamadaApiCriptografia(parseInt(arraySeparacao[i])+"^"+parseInt(e)+"mod"+n);
     }
-    return resultado_final;
+
 }
 
 function descriptografar(palavra,p,q,e){
+    $('#resultado').val('');
     var teste,d,teste3,teste4;
     var einicial = e;
     arraySeparacao = [];
@@ -97,7 +93,8 @@ function descriptografar(palavra,p,q,e){
         if(d < 0){
             d = d + ninicial;
         }
-        
+    }else{
+
     }
 
     for(var i = 0; i < arraySeparacao.length; i++){
@@ -135,6 +132,32 @@ function chamadaApi(input){
             }
            
             console.log(string[0]);
+        }
+    });
+}
+
+function chamadaApiCriptografia(input){
+    //418^1949mod2537
+    $.ajax({
+        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
+        data : 'cliente=eu&acao=getmenu',
+        type : "GET",
+        crossDomain  : "true",
+        dataType     : "jsonp",
+        contentType  : "application/json",
+        async: false,
+        success: function( menu ){
+            jsonResultado = menu;
+            auxiliar = jsonResultado.queryresult.pods[1].subpods[0].plaintext;
+            string = auxiliar;
+
+
+            if(parseInt(string)< 1000){
+                string = "0"+string;
+            }
+
+            $('#resultado').val($('#resultado').val() + string);
+
         }
     });
 }
