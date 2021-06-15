@@ -141,6 +141,7 @@ function chamadaApiResultado(input){
 
 function chamadaApiCriptografia(input,palavra,p,q,e){
     //418^1949mod2537
+    // alert('https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE');
     $.ajax({
         url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
         data : 'cliente=eu&acao=getmenu',
