@@ -48,7 +48,10 @@ function criptografar(palavra,p,q,e){
 }
 
 function descriptografar(palavra,p,q,e){
-    $('#resultado').val('');
+    //$('#resultado').val('');
+    if(palavra == "")
+        return false;
+    else{
     var teste,d,teste3,teste4;
     var einicial = e;
     arraySeparacao = [];
@@ -68,15 +71,12 @@ function descriptografar(palavra,p,q,e){
     var valor = 0;
     var i = 0;
 
-    for(var i = 0; i < arraySeparacao.length; i++){
-        console.log(arraySeparacao[i]);
-        //chamadaApiResultado(arraySeparacao[i]+"^"+d+" \\equiv M mod "+(p*q));
-        chamadaApiResultadoD(arraySeparacao[i],n,e,p,q);
-    }
+    chamadaApiResultadoD(arraySeparacao[0],n,e,p,q,palavra);
 
+    }
 }
 
-function chamadaApiResultadoD(valor,n,e,p,q){
+function chamadaApiResultadoD(valor,n,e,p,q,palavra){
     var input = "d*"+e+" \\equiv 1 mod("+n+")";
     // alert('https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE');
     $.ajax({
@@ -97,7 +97,7 @@ function chamadaApiResultadoD(valor,n,e,p,q){
                 string = string[1];
                 string = string.split(" (mod");
                 string = parseInt(string[0]);
-                chamadaApiResultado(valor+"^"+string+" \\equiv M mod "+(p*q));
+                chamadaApiResultado(valor+"^"+string+" \\equiv M mod "+(p*q), n,e,p,q,palavra);
             }
             else{
                 alert('Problema retornado pela API -> ' + auxiliar);
@@ -106,7 +106,7 @@ function chamadaApiResultadoD(valor,n,e,p,q){
     });
 }
 
-function chamadaApiResultado(input){
+function chamadaApiResultado(input,n,e,p,q,palavra){
 
     $.ajax({
         url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
@@ -133,6 +133,7 @@ function chamadaApiResultado(input){
                 console.log(stringaux);
                 $('#resultado').val($('#resultado').val() + dicionarioInverso(stringaux));
             }
+            descriptografar(palavra.substring(4),p,q,e);
            
             console.log(string[0]);
         }
