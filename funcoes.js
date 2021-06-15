@@ -222,7 +222,7 @@ function dicionario(letra){
     else if(letra == "z")
         return "25";
     else 
-        return false;  
+        return alert('Ocorreu algum problema.');  
 }
 
 function dicionarioInverso(numero){
@@ -279,16 +279,8 @@ function dicionarioInverso(numero){
     else if(numero == "25")
         return "z";
     else 
-        return false;  
+        return alert('Ocorreu algum problema.');  
 }
-
-const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
-  }
-
-  const doSomething = async () => {
-      await sleep(5000)   
-  }
 
 // function descriptografar(palavra,p,q,e){
 //     $('#resultado').val('');
