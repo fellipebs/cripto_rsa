@@ -25,26 +25,26 @@ function validar(){
 }
 
 function criptografar(palavra,p,q,e){
-    $('#resultado').val('');
-    n = p * q;
-    palavraAux = ""; // variavel com a palavra codificada pelo dicionario
-    for (var i = 0; i < palavra.length; i++){
-        palavraAux += dicionario(palavra[i]);
-    }
-    
-    arraySeparacao = [];
-    var u = 0; // for para quebrar a palavra em 4 posições
-    for (var i = 0; i < palavraAux.length; i = i+4){
-        arraySeparacao[u] = palavraAux.substring(i,i+4);
-        u++;
-    }
+    // $('#resultado').val('');
+    if(palavra == "")
+        return false;
+    else{
+        n = p * q;
+        palavraAux = ""; // variavel com a palavra codificada pelo dicionario
+        for (var i = 0; i < palavra.length; i++){
+            palavraAux += dicionario(palavra[i]);
+        }
+        
+        arraySeparacao = [];
+        var u = 0; // for para quebrar a palavra em 4 posições
+        for (var i = 0; i < palavraAux.length; i = i+4){
+            arraySeparacao[u] = palavraAux.substring(i,i+4);
+            u++;
+        }
 
-    resultado_final = "";
-    for(var i = 0; i < arraySeparacao.length; i++){
-        // alert(parseInt(arraySeparacao[i])+"^"+parseInt(e)+"mod"+n);
-        chamadaApiCriptografia(parseInt(arraySeparacao[i])+"^"+parseInt(e)+"mod"+n);
+        resultado_final = "";
+        chamadaApiCriptografia(parseInt(arraySeparacao[0])+"^"+parseInt(e)+"mod"+n,palavra,p,q,e);
     }
-
 }
 
 function descriptografar(palavra,p,q,e){
@@ -67,44 +67,47 @@ function descriptografar(palavra,p,q,e){
     var aux = "";
     var valor = 0;
     var i = 0;
-    while(aux != 1){
-        if(i == 0){ // Primeiro Loop = Inicio Algoritmo de euclides
-            divisao = parseInt((n / e));
-            resto = n % e;
-            // console.log(n+" = "+e+"*"+divisao+"+"+resto);
-            arrayResultados[i] = n - (e*divisao);
-            aux = arrayResultados[i];
-            valor = parseInt(n / (-e));
-            ninicial = n;
-        }else{
-            divisao = parseInt(e / aux);
-            resto = e % aux;
-            // console.log(e+" = "+divisao+"*"+aux+"+"+resto);
-            arrayResultados[i] = e - (divisao*aux);
-            e = aux;
-            aux = arrayResultados[i];
-            
-        }
-        i++;
-    }
-
-    if(arrayResultados.length == 1){
-        d = valor;
-        if(d < 0){
-            d = d + ninicial;
-        }
-    }else{
-
-    }
 
     for(var i = 0; i < arraySeparacao.length; i++){
-        chamadaApi(arraySeparacao[i]+"^"+d+" \\equiv M mod "+(p*q));
+        console.log(arraySeparacao[i]);
+        //chamadaApiResultado(arraySeparacao[i]+"^"+d+" \\equiv M mod "+(p*q));
+        chamadaApiResultadoD(arraySeparacao[i],n,e,p,q);
     }
 
 }
 
-function chamadaApi(input){
-    //418^1949mod2537
+function chamadaApiResultadoD(valor,n,e,p,q){
+    var input = "d*"+e+" \\equiv 1 mod("+n+")";
+    // alert('https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE');
+    $.ajax({
+        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
+        data : 'cliente=eu&acao=getmenu',
+        type : "GET",
+        crossDomain  : "true",
+        dataType     : "jsonp",
+        contentType  : "application/json",
+        async: false,
+        success: function( menu ){
+            jsonResultado = menu;
+            auxiliar = jsonResultado.queryresult.pods[1].subpods[0].plaintext;
+            string = auxiliar;
+
+            string = string.split("d congruent ");
+            if(string[1] != "" && string[1] != null && string[1] != undefined){
+                string = string[1];
+                string = string.split(" (mod");
+                string = parseInt(string[0]);
+                chamadaApiResultado(valor+"^"+string+" \\equiv M mod "+(p*q));
+            }
+            else{
+                alert('Problema retornado pela API -> ' + auxiliar);
+            }
+        }
+    });
+}
+
+function chamadaApiResultado(input){
+
     $.ajax({
         url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
         data : 'cliente=eu&acao=getmenu',
@@ -136,7 +139,7 @@ function chamadaApi(input){
     });
 }
 
-function chamadaApiCriptografia(input){
+function chamadaApiCriptografia(input,palavra,p,q,e){
     //418^1949mod2537
     $.ajax({
         url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
@@ -157,7 +160,7 @@ function chamadaApiCriptografia(input){
             }
 
             $('#resultado').val($('#resultado').val() + string);
-
+            criptografar(palavra.substring(2),p,q,e);
         }
     });
 }
@@ -276,3 +279,67 @@ function dicionarioInverso(numero){
     else 
         return false;  
 }
+
+const sleep = (milliseconds) => {
+    return new Promise(resolve => setTimeout(resolve, milliseconds))
+  }
+
+  const doSomething = async () => {
+      await sleep(5000)   
+  }
+
+// function descriptografar(palavra,p,q,e){
+//     $('#resultado').val('');
+//     var teste,d,teste3,teste4;
+//     var einicial = e;
+//     arraySeparacao = [];
+//     var u = 0; // for para quebrar a palavra em 4 posições
+//     for (var i = 0; i < palavra.length; i = i+4){
+//         arraySeparacao[u] = palavra.substring(i,i+4);
+//         u++;
+//     }
+
+//     pmenos1 = p - 1;
+//     qmenos1 = q - 1;
+//     n = pmenos1 * qmenos1;
+
+//     arrayResultados = [];
+    
+//     var aux = "";
+//     var valor = 0;
+//     var i = 0;
+//     while(aux != 1){
+//         if(i == 0){ // Primeiro Loop = Inicio Algoritmo de euclides
+//             divisao = parseInt((n / e));
+//             resto = n % e;
+//             // console.log(n+" = "+e+"*"+divisao+"+"+resto);
+//             arrayResultados[i] = n - (e*divisao);
+//             aux = arrayResultados[i];
+//             valor = parseInt(n / (-e));
+//             ninicial = n;
+//         }else{
+//             divisao = parseInt(e / aux);
+//             resto = e % aux;
+//             // console.log(e+" = "+divisao+"*"+aux+"+"+resto);
+//             arrayResultados[i] = e - (divisao*aux);
+//             e = aux;
+//             aux = arrayResultados[i];
+            
+//         }
+//         i++;
+//     }
+
+//     if(arrayResultados.length == 1){
+//         d = valor;
+//         if(d < 0){
+//             d = d + ninicial;
+//         }
+//     }else{
+
+//     }
+
+//     for(var i = 0; i < arraySeparacao.length; i++){
+//         chamadaApi(arraySeparacao[i]+"^"+d+" \\equiv M mod "+(p*q));
+//     }
+
+// }
