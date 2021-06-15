@@ -32,7 +32,8 @@ function criptografar(palavra,p,q,e){
         n = p * q;
         palavraAux = ""; // variavel com a palavra codificada pelo dicionario
         for (var i = 0; i < palavra.length; i++){
-            palavraAux += dicionario(palavra[i]);
+            if(dicionario(palavra[i]) != undefined)
+                palavraAux += dicionario(palavra[i]);
         }
         
         arraySeparacao = [];
@@ -131,7 +132,8 @@ function chamadaApiResultado(input,n,e,p,q,palavra){
             for (var i = 0; i < string[0].length; i+=2){
                 stringaux = string[0].substring(i,i+2);
                 console.log(stringaux);
-                $('#resultado').val($('#resultado').val() + dicionarioInverso(stringaux));
+                if(dicionarioInverso(stringaux) != undefined)
+                    $('#resultado').val($('#resultado').val() + dicionarioInverso(stringaux));
             }
             descriptografar(palavra.substring(4),p,q,e);
            
