@@ -103,7 +103,7 @@ function chamadaApiResultadoD(valor,n,e,p,q,palavra){
                 chamadaApiResultado(valor+"^"+string+" \\equiv M mod "+(p*q), n,e,p,q,palavra);
             }
             else{
-                alert('Problema retornado pela API -> ' + auxiliar);
+                alert('Problema retornado pela API -> ' + auxiliar + ' Conta pedida -> '+input);
             }
         }
     });
@@ -140,7 +140,7 @@ function chamadaApiResultado(input,n,e,p,q,palavra){
                     string[0] = string[0].substring(2,4);
 
                 stringaux = string[0].substring(i,i+2);
-                console.log(stringaux);
+                // console.log(stringaux);
 
                 if(dicionarioInverso(stringaux) != undefined){
                     $('#resultado').val($('#resultado').val() + dicionarioInverso(stringaux));
@@ -148,7 +148,7 @@ function chamadaApiResultado(input,n,e,p,q,palavra){
             }
             descriptografar(palavra.substring(4),p,q,e);
            
-            console.log(string[0]);
+            // console.log(string[0]);
         }
     });
 }
