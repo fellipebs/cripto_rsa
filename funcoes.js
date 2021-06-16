@@ -15,7 +15,7 @@ function validar(){
     }else if(e == ""){
         alert('Digite o e!');
     }else{
-        if($('#tipo').val() == 1){
+        if($("input[name='tipo']:checked").val() == 1){
             criptografar(palavra,p,q,e);
         }else{
             descriptografar(palavra,p,q,e);
