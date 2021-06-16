@@ -24,6 +24,10 @@ function validar(){
 
 }
 
+function limpar(){
+    $('#resultado').val('');
+}
+
 function criptografar(palavra,p,q,e){
     // $('#resultado').val('');
     if(palavra == "")
