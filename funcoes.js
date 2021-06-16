@@ -31,6 +31,8 @@ function criptografar(palavra,p,q,e){
     else{
         n = p * q;
         palavraAux = ""; // variavel com a palavra codificada pelo dicionario
+        palavra = palavra.toLowerCase(); // tratando caracteres maiusculos
+        palavra = remover_acentos_espaco(palavra); // tratando acentuação
         for (var i = 0; i < palavra.length; i++){
             if(dicionario(palavra[i]) != undefined)
                 palavraAux += dicionario(palavra[i]);
@@ -296,6 +298,11 @@ function dicionarioInverso(numero){
     else 
         return alert('Ocorreu algum problema.');  
 }
+
+function remover_acentos_espaco(str) {
+    return str.normalize("NFD").replace(/[^a-zA-Zs]/g, "");
+}
+
 
 // function descriptografar(palavra,p,q,e){
 //     $('#resultado').val('');
