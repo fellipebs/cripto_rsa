@@ -31,6 +31,8 @@ function criptografar(palavra,p,q,e){
     else{
         n = p * q;
         palavraAux = ""; // variavel com a palavra codificada pelo dicionario
+        palavra = palavra.toLowerCase(); // tratando caracteres maiusculos
+        palavra = remover_acentos_espaco(palavra); // tratando acentuação
         for (var i = 0; i < palavra.length; i++){
             if(dicionario(palavra[i]) != undefined)
                 palavraAux += dicionario(palavra[i]);
@@ -125,15 +127,24 @@ function chamadaApiResultado(input,n,e,p,q,palavra){
             string = string[1];
             string = string.split(" (mod");
 
-            if(parseInt(string[0]) < 1000){
+            if(parseInt(string[0])< 10){
+                string[0] = "000"+string[0];
+            }else if(parseInt(string[0])< 100){
+                string[0] = "00"+string[0];
+            }else if(parseInt(string[0])< 1000){
                 string[0] = "0"+string[0];
             }
 
             for (var i = 0; i < string[0].length; i+=2){
+                if(string[0].substring(0,2) == "00" && palavra.substring(4) == "")
+                    string[0] = string[0].substring(2,4);
+
                 stringaux = string[0].substring(i,i+2);
                 console.log(stringaux);
-                if(dicionarioInverso(stringaux) != undefined)
+
+                if(dicionarioInverso(stringaux) != undefined){
                     $('#resultado').val($('#resultado').val() + dicionarioInverso(stringaux));
+                }
             }
             descriptografar(palavra.substring(4),p,q,e);
            
@@ -159,7 +170,11 @@ function chamadaApiCriptografia(input,palavra,p,q,e){
             string = auxiliar;
 
 
-            if(parseInt(string)< 1000){
+            if(parseInt(string)< 10){
+                string = "000"+string;
+            }else if(parseInt(string)< 100){
+                string = "00"+string;
+            }else if(parseInt(string)< 1000){
                 string = "0"+string;
             }
 
@@ -283,6 +298,11 @@ function dicionarioInverso(numero){
     else 
         return alert('Ocorreu algum problema.');  
 }
+
+function remover_acentos_espaco(str) {
+    return str.normalize("NFD").replace(/[^a-zA-Zs]/g, "");
+}
+
 
 // function descriptografar(palavra,p,q,e){
 //     $('#resultado').val('');
