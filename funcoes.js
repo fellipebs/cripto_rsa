@@ -81,9 +81,8 @@ function descriptografar(palavra,p,q,e){
 
 function chamadaApiResultadoD(valor,n,e,p,q,palavra){
     var input = "d*"+e+" \\equiv 1 mod("+n+")";
-    // alert('https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE');
     $.ajax({
-        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
+        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XE7T7P-Y2YHRY2TGK',
         data : 'cliente=eu&acao=getmenu',
         type : "GET",
         crossDomain  : "true",
@@ -112,7 +111,7 @@ function chamadaApiResultadoD(valor,n,e,p,q,palavra){
 function chamadaApiResultado(input,n,e,p,q,palavra){
 
     $.ajax({
-        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
+        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XE7T7P-Y2YHRY2TGK',
         data : 'cliente=eu&acao=getmenu',
         type : "GET",
         crossDomain  : "true",
@@ -154,10 +153,9 @@ function chamadaApiResultado(input,n,e,p,q,palavra){
 }
 
 function chamadaApiCriptografia(input,palavra,p,q,e){
-    //418^1949mod2537
-    // alert('https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE');
+
     $.ajax({
-        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XTA64W-J9AL3QPYJE',
+        url  : 'https://api.wolframalpha.com/v2/query?input='+input+'&format=plaintext&output=JSON&&appid=XE7T7P-Y2YHRY2TGK',
         data : 'cliente=eu&acao=getmenu',
         type : "GET",
         crossDomain  : "true",
@@ -359,3 +357,5 @@ function remover_acentos_espaco(str) {
 //     }
 
 // }
+
+//API KEY OLD -> XTA64W-J9AL3QPYJE
