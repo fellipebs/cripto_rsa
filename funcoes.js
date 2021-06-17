@@ -185,7 +185,7 @@ function chamadaApiCriptografia(input,palavra,p,q,e){
         }
     });
 }
-// Cripto -> Letras > A = 00, B = 01, ~ Z = 35
+// Cripto -> Letras > A = 00, B = 01, ~ Z = 25
 
 function dicionario(letra){
     if(letra == "a")
